@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const thoughtSchema = require('./Thought');
+const reactionSchema = require('./Reaction');
 
 const thoughtSchema = new Schema(
   {
@@ -12,13 +12,13 @@ const thoughtSchema = new Schema(
   createdAt: {
     type: Date,
     default: Date.now,
-    // Use a getter method to format the timestamp on query
     get: createdAtVal => new Date(createdAtVal).toLocaleString()
   },
   username: {
     type: String,
     required: true
-  }
+  },
+  reactions: [reactionSchema]
 });
 
 const Thought = model('Thought', thoughtSchema);

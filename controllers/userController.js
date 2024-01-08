@@ -4,7 +4,12 @@ const { User, Thought } = require("../models");
 async function getAllUsers(req, res) {
   try {
     const users = await User.find();
-    res.json(users);
+
+    if (!users) {
+      return res.status(404).json({ message: "Wrong path" });
+    }
+
+    return res.status(200).json({ users, message: "All users found" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -16,7 +21,12 @@ async function getSingleUser(req, res) {
     const singleUser = await User.findOne({ _id: req.params.userID })
       .populate("friends")
       .populate("thoughts");
-    res.json(singleUser);
+
+    if (!singleUser) {
+      return res.status(404).json({ message: "User ID not found" });
+    }
+
+    return res.status(200).json({ singleUser, message: "User found by ID" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -26,7 +36,12 @@ async function getSingleUser(req, res) {
 async function createUser(req, res) {
   try {
     const newUser = await User.create(req.body);
-    res.json(newUser);
+
+    if (!newUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ createUser, message: "User created" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -35,17 +50,73 @@ async function createUser(req, res) {
 // Update user by ID
 async function updateUser(req, res) {
   try {
-    const updateUser = await User.findOneAndUpdate(req.body);
-    res.json(updateUser);
+    const updateUser = await User.findOneAndUpdate(
+      { _id: req.params.userID },
+      { $set: req.body }
+    );
+
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ updateUser, message: "User updated " });
   } catch (err) {
     res.status(500).json(err);
   }
 }
 
+// Delete user
 async function deleteUser(req, res) {
   try {
     const updateUser = await User.findOneAndRemove({ _id: req.params.userID });
-    res.json(updateUser);
+
+    if (!updateUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // await Thought.deleteMany({ _id: { $in: updateUser.thoughts } });
+
+    return res
+      .status(200)
+      .json({ updateUser, message: "User and thoughts deleted" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+async function createFriend(req, res) {
+  try {
+    const newFriend = await User.findOneAndUpdate(
+      { _id: req.params.userID },
+      { $addToSet: { friends: req.params.friendsID } },
+      { new: true }
+    );
+
+    if (!newFriend) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ newFriend, message: "New friend added" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+async function deleteFriend(req, res) {
+  try {
+    const removeFriend = await User.findOneAndUpdate(
+      { _id: req.params.userID },
+      { $pull: { friends: req.params.friendsID } },
+      { new: true }
+    );
+
+    if (!removeFriend) {
+      return res.status(404).json({ message: "No user found" });
+    }
+
+    return res
+      .status(200)
+      .json({ removeFriend, message: "Friend deleted successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -57,4 +128,6 @@ module.exports = {
   getSingleUser,
   updateUser,
   deleteUser,
+  createFriend,
+  deleteFriend,
 };

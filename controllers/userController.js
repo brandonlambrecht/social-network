@@ -52,7 +52,8 @@ async function updateUser(req, res) {
   try {
     const updateUser = await User.findOneAndUpdate(
       { _id: req.params.userID },
-      { $set: req.body }
+      { $set: req.body },
+      { new: true }
     );
 
     if (!updateUser) {
@@ -74,11 +75,9 @@ async function deleteUser(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // await Thought.deleteMany({ _id: { $in: updateUser.thoughts } });
+    await Thought.deleteMany({ _id: { $in: updateUser.thoughts } });
 
-    return res
-      .status(200)
-      .json({ updateUser, message: "User and thoughts deleted" });
+    return res.status(200).json({ updateUser, message: "User deleted" });
   } catch (err) {
     res.status(500).json(err);
   }

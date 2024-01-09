@@ -1,4 +1,4 @@
-const { Thought, User } = require("../models");
+const { Thought } = require("../models");
 
 // Get all thoughts
 async function getAllThoughts(req, res) {
@@ -87,7 +87,9 @@ async function deleteThought(req, res) {
       return res.status(404).json({ message: "Thought not found" });
     }
 
-    return res.status(200).json({ deleteThought, message: "Thought deleted" });
+    return res
+      .status(200)
+      .json({ deleteThought, message: "Thought deleted successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -127,7 +129,7 @@ async function deleteReaction(req, res) {
 
     return res
       .status(200)
-      .json({ deleteReaction, message: "Reaction deleted" });
+      .json({ deleteReaction, message: "Reaction deleted successfully" });
   } catch (err) {
     res.status(500).json(err);
   }

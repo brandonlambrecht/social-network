@@ -1,13 +1,8 @@
-# social-network
+# social-network-api
 
 ## Description
 
 Welcome to the social network API repository, a CRUD API used to create users, add friend list, share thoughts and reactions to thoughts. The project was not deployed but please follow the demo link and see the project in action.
-
-API base routes:
-
-- localhost:3001/api/user
-- localhost:3001/api/thought
 
 Technologies Used include:
 
@@ -16,7 +11,35 @@ Technologies Used include:
 - Express.js
 - Insomnia
 
-Follow link for GitHub repository [Social Network API](https://github.com/brandonlambrecht/social-network-api)![social-network](./images/all-users.png)
+Follow link for GitHub repository [Social Network API](https://github.com/brandonlambrecht/social-network)![social-network](./images/all-users.png)
+
+API routes:
+
+GET
+
+    localhost:3001/api/user
+    localhost:3001/api/user/:userID
+    localhost:3001/api/thought
+    localhost:3001/api/thought/:thoughtID
+
+POST
+
+    localhost:3001/api/thought
+    localhost:3001/api/user
+    localhost:3001/api/user/:userID/friends/:friendsID
+    localhost:3001/api/thought/:thoughtID/reactions
+
+PUT
+
+    localhost:3001/api/user/:userID
+    localhost:3001/api/thought/:thoughtID
+
+DELETE
+
+    localhost:3001/api/user/:userID
+    localhost:3001/api/user/:userID/friends/:friendsID
+    localhost:3001/api/thought/:thoughtID
+    localhost:3001/api/thought/:thoughtID/reactions/:reactionsID
 
 ## License
 
@@ -29,8 +52,6 @@ None
 [Usage](#usage)
 
 [Contribution](#contribution)
-
-[Questions](#questions)
 
 [Demo](#demo)
 
@@ -54,4 +75,4 @@ Open to any suggestions to improve the project. Create an issue with the descrip
 
 ## Demo
 
-Link here for [demo]() on how to use application.
+Link here for demo (https://drive.google.com/file/d/1bJgeFPFBepiilbFtZkSfs8oA_dB4e-Yz/view) on how to use application.

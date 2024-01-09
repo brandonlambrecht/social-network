@@ -41,7 +41,9 @@ async function createUser(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ createUser, message: "User created" });
+    return res
+      .status(200)
+      .json({ createUser, message: "User created successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -60,7 +62,9 @@ async function updateUser(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ updateUser, message: "User updated " });
+    return res
+      .status(200)
+      .json({ updateUser, message: "User updated successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -77,7 +81,9 @@ async function deleteUser(req, res) {
 
     await Thought.deleteMany({ _id: { $in: updateUser.thoughts } });
 
-    return res.status(200).json({ updateUser, message: "User deleted" });
+    return res
+      .status(200)
+      .json({ updateUser, message: "User deleted successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -95,7 +101,9 @@ async function createFriend(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ newFriend, message: "New friend added" });
+    return res
+      .status(200)
+      .json({ newFriend, message: "New friend added successfully" });
   } catch (err) {
     res.status(500).json(err);
   }
